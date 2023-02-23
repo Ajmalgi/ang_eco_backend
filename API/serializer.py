@@ -18,22 +18,29 @@ class CustomerSerializer(serializers.ModelSerializer):
         fields = '__all__' 
 
 
-class cviewproductsSerializer(serializers.ModelSerializer):
-    first_name = serializers.CharField(source='seller.first_name')
-    last_name = serializers.CharField(source='seller.last_name')
-
-    class Meta:
-        model = Products
-        read_only_fields = ['first_name','last_name']
-        fields = '__all__'
+# class cviewproductsSerializer(serializers.ModelSerializer):
+#     first_name = serializers.CharField(source='seller.first_name')
+#     last_name = serializers.CharField(source='seller.last_name')
+          
+#     class Meta:
+#         model = Products
+#         read_only_fields = ['first_name','last_name']
+#         fields = '__all__'
         
+
+        
+
+class SellerViewSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Seller
+        fields = ['first_name','last_name']
+
 class productsSerializer(serializers.ModelSerializer):
-    
-
+      
+    seller = SellerViewSerializer(read_only = True)
     class Meta:
         model = Products
-        fields = '__all__'
-        
+        fields = '__all__'      
 
 class CategorySerializer(serializers.ModelSerializer):
 

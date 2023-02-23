@@ -10,7 +10,7 @@ from django.http import JsonResponse
 from rest_framework.decorators import api_view
 from API.serializer import SellerSerializer
 from API.serializer import CustomerSerializer
-from API.serializer import cviewproductsSerializer,CategorySerializer
+from API.serializer import productsSerializer,CategorySerializer
 
 # Create your views here.
 
@@ -115,10 +115,10 @@ def customer_login(request):
 def view_products(request):
     cid = request.data
     products = Products.objects.filter(category = cid['cid'])
-    serialized_data = cviewproductsSerializer(products,many=True)
+    serialized_data = productsSerializer(products,many=True)
     sd = serialized_data.data
 
-    return JsonResponse(sd,safe=False)          
+    return JsonResponse({'products':sd})          
 
 #------------------customer Profile---------------------#
 
@@ -129,7 +129,7 @@ def customer_profile(request):
     serialized_data = CustomerSerializer(cust_details,many=True)
     cdetails = serialized_data.data
       
-    return JsonResponse(cdetails ,safe=False)  
+    return JsonResponse({'cdetails':cdetails})  
 
 
 
@@ -139,4 +139,4 @@ def home_category(request):
     serialized_data = CategorySerializer(category,many=True)
     cd = serialized_data.data
     
-    return JsonResponse(cd ,safe=False)
+    return JsonResponse({'category':cd })

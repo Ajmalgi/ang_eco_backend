@@ -36,7 +36,7 @@ def view_category(request):
     serialized_data = CategorySerializer(category,many=True)
     cd = serialized_data.data
 
-    return JsonResponse(cd ,safe=False)
+    return JsonResponse({'category': cd})
 
 
 def view_seller(request):
@@ -54,4 +54,4 @@ def view_customer(request):
     serialized_data = CustomerSerializer(customer,many=True)
     customer_details = serialized_data.data
 
-    return JsonResponse(customer_details,safe=False)
+    return JsonResponse({'customer_deatils':customer_details})
