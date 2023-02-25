@@ -61,7 +61,7 @@ def seller_login(request):
     try:
         seller = Seller.objects.get(user_name = seller_id , password = password)
         sname= seller.first_name + seller.last_name
-        return JsonResponse({'statusCode':200,'token':seller.id,'sname':sname})
+        return JsonResponse({'statusCode':200,'token':seller.id})
  
 
     except:
@@ -105,10 +105,11 @@ def customer_login(request):
         customer = Customer.objects.get(email = email , password = password)
         msg="200"
         cname= customer.first_name +' ' + customer.last_name
+        return JsonResponse({'statusCode':msg ,'C_token':customer.id,'cname':cname})   
     except:
-       msg = '500'
+        msg = '401'
        
-    return JsonResponse({'statusCode':msg ,'C_token':customer.id,'cname':cname})
+        return JsonResponse({'statusCode':msg })
 
 #-----------------------view product-------------------#
 @api_view(['POST'])

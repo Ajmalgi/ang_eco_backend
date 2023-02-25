@@ -24,7 +24,7 @@ def add_category (request):
             msg = 'form error'
 
     except :
-        status_code = 500
+        status_code = 401
         msg = 'somthing went wrong'
 
     return JsonResponse({'message':msg,'status':status_code})
@@ -45,7 +45,7 @@ def view_seller(request):
     serialized_data = SellerSerializer(seller,many=True)
     seller_details = serialized_data.data
 
-    return JsonResponse(seller_details,safe=False)
+    return JsonResponse({'seller_details':seller_details})
 
 
 def view_customer(request):
