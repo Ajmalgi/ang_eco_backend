@@ -66,12 +66,23 @@ def Sview_products(request):
 
 @api_view(['PUT'])
 def update_stock(request):
-       Sid = request.data
-       products = Products.objects.filter(seller_id = Sid['Sid'])
-       serialized_data = productsSerializer(products,many=True)
-       sd = serialized_data.data
+       formdata = request.data
+       print(formdata['product_id'])
+       update =formdata['inputdata']
+       update_stock = int(update)
+         
 
-       return JsonResponse({'products':sd})  
+       try:
+            products = Products.objects.get(id = formdata['product_id'])
+            print(products)
+            products.stock = update_stock
+            products.save()
+            
+            
+            return JsonResponse({'statusCode':200})  
+       except : 
+           
+            return JsonResponse({'statusCode':401})  
 
-
+       
  

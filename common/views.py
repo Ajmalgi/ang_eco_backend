@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from . models import Seller
-from . models import Customer
+from . models import Customer,Cart
 from seller . models import Products
 from ang_eco_admin . models import Category
 from random import randint
@@ -9,7 +9,7 @@ from random import randint
 from django.http import JsonResponse
 from rest_framework.decorators import api_view
 from API.serializer import SellerSerializer
-from API.serializer import CustomerSerializer
+from API.serializer import CustomerSerializer,CartSerializer
 from API.serializer import productsSerializer,CategorySerializer
 
 # Create your views here.
@@ -141,3 +141,45 @@ def home_category(request):
     cd = serialized_data.data
     
     return JsonResponse({'category':cd })
+
+@api_view(['GET'])
+def product_details(request,id):
+
+    product_details=Products.objects.get(id=id)
+    serialized_data = productsSerializer(product_details)
+    return JsonResponse({'product_details':serialized_data.data})
+        
+@api_view(['POST'])
+def addto_cart(request):
+     formdata = request.data
+     print(formdata)
+     item = Cart.objects.filter(customer = formdata['cid'],product = formdata['pid']).exists()
+     if not item:
+            cart_item = Cart(customer_id = formdata['cid'],product_id = formdata['pid'])
+            cart_item.save()
+            msg = 200
+     else:
+         msg = 'item is alerady in cart'
+
+     return JsonResponse({'msg':msg})
+
+@api_view(['POST'])
+def my_cart(request):
+    formdata = request.data
+    cart = Cart.objects.filter(customer_id = formdata['Cid'])
+    serialized_data = CartSerializer(cart, many=True)
+
+    return JsonResponse({'cart_items':serialized_data.data})
+
+@api_view(['POST'])    
+def s_email_check(request):
+    formdata = request.data
+    print(formdata['email'])
+     
+
+    if Seller.objects.filter(email = formdata['email']).exists():
+           
+                  
+                return JsonResponse(True,safe=False)
+    else :
+        return JsonResponse(False,safe=False)

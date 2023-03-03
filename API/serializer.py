@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from common.models import Seller
-from common.models import Customer
+from common.models import Customer,Cart
 from seller.models import Products
 from ang_eco_admin.models import Category
  
@@ -46,4 +46,12 @@ class CategorySerializer(serializers.ModelSerializer):
 
     class Meta:
         model= Category 
+        fields = '__all__'
+
+
+class CartSerializer(serializers.ModelSerializer):
+    product = productsSerializer()
+    customer = CustomerSerializer()
+    class Meta:
+        model = Cart
         fields = '__all__'
