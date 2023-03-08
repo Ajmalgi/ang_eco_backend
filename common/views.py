@@ -183,3 +183,14 @@ def s_email_check(request):
                 return JsonResponse(True,safe=False)
     else :
         return JsonResponse(False,safe=False)
+
+
+@api_view(['POST'])  
+def remove_cart_item(request):
+     cart_id = request.data
+     print(cart_id['cartid'])
+
+     cart_item = Cart.objects.get(id = cart_id['cartid'])
+     cart_item.delete()
+    
+     return JsonResponse({'statusCode':200,'cart_id':cart_id['cartid']})

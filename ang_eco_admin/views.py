@@ -29,7 +29,7 @@ def add_category (request):
 
     return JsonResponse({'message':msg,'status':status_code})
 
-
+@api_view(['GET'])
 def view_category(request):
     category = Category.objects.all()
 
@@ -38,7 +38,7 @@ def view_category(request):
 
     return JsonResponse({'category': cd})
 
-
+@api_view(['GET'])
 def view_seller(request):
     seller = Seller.objects.all()
 
@@ -47,7 +47,7 @@ def view_seller(request):
 
     return JsonResponse({'seller_details':seller_details})
 
-
+@api_view(['GET'])
 def view_customer(request):
     customer = Customer.objects.all()
 
@@ -55,3 +55,18 @@ def view_customer(request):
     customer_details = serialized_data.data
 
     return JsonResponse({'customer_deatils':customer_details})
+
+@api_view(['POST'])
+def apprve_seller(request):
+    formdata = request.data
+    
+    try:
+        seller = Seller.objects.get(id = formdata['Sid'])
+        seller.status = formdata['status']
+        seller.save()
+        return JsonResponse({'msg':'status updated'})
+
+    except:
+        return JsonResponse({'msg':403})
+    
+    

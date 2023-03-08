@@ -19,6 +19,7 @@ class Seller(models.Model):
     ifsc = models.CharField(max_length=10)
     account_no = models.CharField(max_length=15)
     seller_pic = models.ImageField(upload_to= 'sellerpic/')
+    status = models.CharField(max_length=30,default="")
     class Meta:
         db_table = 'seller_tb'
 
@@ -46,3 +47,4 @@ class Cart(models.Model):
     
     class Meta:
         db_table = 'cart_tb'
+
